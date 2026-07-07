@@ -12,7 +12,16 @@ env/
 .env.*
 
 # Generated data & model artifacts
-data/processed/
+data/raw/*
+!data/raw/README.md
+!data/raw/.gitkeep
+
+data/processed/*
+!data/processed/README.md
+!data/processed/.gitkeep
+
+models/
+outputs/
 *.joblib
 *.pkl
 
