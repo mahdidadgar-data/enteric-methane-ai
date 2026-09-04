@@ -20,10 +20,14 @@ data/processed/*
 !data/processed/README.md
 !data/processed/.gitkeep
 
-models/
+models/*
 outputs/
 *.joblib
 *.pkl
+
+# Include only the saved portfolio demo model and its documentation.
+!models/best_model.joblib
+!models/README.md
 
 # Jupyter
 .ipynb_checkpoints/

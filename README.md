@@ -147,6 +147,55 @@ The intended project workflow is:
 
 ## How to Run
 
+### Run the saved demo without retraining
+
+The repository includes the existing saved demonstration model in
+`models/best_model.joblib`. To run only the Streamlit application, create a
+Python 3.12 virtual environment and install the app-specific dependencies:
+
+```bash
+python -m pip install -r app/requirements.txt
+python -m streamlit run app/app.py
+```
+
+Use a separate environment for the full training workflow below. The saved
+model's version details and limitations are documented in
+[models/README.md](models/README.md).
+
+The optional feature-importance CSV, mitigation-sensitivity CSV, and saved
+PubMed evidence briefs are not currently included in the repository. Their
+sections show availability messages; the prediction form can run without them.
+
+### Deploy the saved demo to Streamlit Community Cloud
+
+In [Streamlit Community Cloud](https://share.streamlit.io/), choose **Create app**
+and select:
+
+| Setting | Value |
+| --- | --- |
+| Repository | `mahdidadgar-data/enteric-methane-ai` |
+| Branch | `main` |
+| Main file path | `app/app.py` |
+| Python version (Advanced settings) | `3.12` |
+
+No API keys are needed for prediction or to display saved evidence briefs.
+Community Cloud uses `app/requirements.txt`, located beside the entrypoint,
+before the root training requirements. See the official
+[deployment instructions](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)
+and [dependency-file selection](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies).
+
+After publishing, verify that the prediction button works at the assigned
+public URL before adding a live-demo badge to this README.
+
+To run the deployment smoke tests in the inference environment:
+
+```bash
+python -m pip install pytest
+python -m pytest tests/test_streamlit_app.py -q
+```
+
+The following steps describe the full data and training workflow.
+
 ### 1. Create and activate an environment
 
 ```bash
@@ -250,7 +299,7 @@ Future improvements could include:
 - Expanding the RAG layer with more structured evidence grading
 - Adding a rumen microbiome module if a suitable public dataset is available
 - Adding a poultry nutrition track focused on feed efficiency or nitrogen excretion
-- Creating a deployable demo version of the Streamlit app
+- Completing the hosted demo with reviewed explainability outputs and evidence briefs
 
 ## Portfolio Relevance
 

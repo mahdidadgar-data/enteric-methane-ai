@@ -1,0 +1,9 @@
+# Streamlit Community Cloud inference environment (Python 3.12).
+# This file is intentionally separate from the root training requirements.
+# Match the XGBoost version recorded inside the saved model.
+streamlit==1.55.0
+pandas==2.2.3
+numpy==2.3.5
+scikit-learn==1.8.0
+joblib==1.5.3
+xgboost-cpu==3.3.0
