@@ -6,6 +6,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pytest
+import streamlit as st
 from streamlit.testing.v1 import AppTest
 
 
@@ -119,3 +120,32 @@ def test_missing_optional_outputs_still_allow_prediction(monkeypatch):
     app.button[0].click().run()
     assert not app.exception
     assert any(item.label == "ML prediction" for item in app.metric)
+
+
+def test_csvs_appear_after_deployment_without_clearing_cache(monkeypatch):
+    """Reproduce a running app discovering CSVs added by a later deployment."""
+    st.cache_data.clear()
+    original_exists = Path.exists
+    csv_paths = {
+        ROOT / "outputs" / "explainability" / "feature_importance.csv",
+        ROOT / "outputs" / "explainability" / "mitigation_opportunities.csv",
+    }
+    try:
+        with monkeypatch.context() as patch:
+            patch.setattr(
+                Path, "exists",
+                lambda path: False if path in csv_paths else original_exists(path),
+            )
+            app = launch()
+            assert sum("output was not found" in item.value for item in app.info) == 2
+
+        # Same paths and same app function, but the new deployment now has files.
+        # Do not clear the cache or restart the test app between these states.
+        app.run()
+        assert not app.exception
+        assert not any("output was not found" in item.value for item in app.info)
+        tables = [table.value for table in app.dataframe]
+        assert any(len(frame) == 28 and "feature" in frame for frame in tables)
+        assert any(len(frame) == 10 and "scenario" in frame for frame in tables)
+    finally:
+        st.cache_data.clear()

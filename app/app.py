@@ -85,18 +85,18 @@ def load_model_bundle(path: Path) -> Dict[str, object]:
     return joblib.load(path)
 
 
-@st.cache_data
 def load_csv_if_exists(path: Path) -> pd.DataFrame | None:
     """
-    Load a CSV file if it exists.
+    Read small output files fresh on each rerun.
+
+    Do not cache a missing-file result: a later deployment may add the CSV
+    at the same path while the Streamlit process is still running.
     """
 
     if not path.exists():
         return None
 
     return pd.read_csv(path)
-
-
 
 
 def display_input_checks(inputs: Dict[str, float | int | str]) -> None:
