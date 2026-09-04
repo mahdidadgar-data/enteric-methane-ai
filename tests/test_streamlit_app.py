@@ -66,6 +66,42 @@ def test_default_prediction_and_repeatability():
     assert {item.label: item.value for item in app.metric} == metrics
 
 
+@pytest.mark.parametrize(
+    "ml_prediction,expected_badge,expected_detail",
+    [
+        (20.6, "+1.2 vs ML", "-1.20 g CH4/kg DMI"),
+        (23.0, "-1.2 vs ML", "+1.20 g CH4/kg DMI"),
+        (21.8, "+0.0 vs ML", "+0.00 g CH4/kg DMI"),
+    ],
+)
+def test_benchmark_badge_uses_benchmark_minus_ml(
+    monkeypatch, bundle, ml_prediction, expected_badge, expected_detail
+):
+    """The benchmark badge and ML-minus-benchmark detail have opposite signs."""
+    app = launch()
+    import benchmark_equation
+
+    monkeypatch.setattr(
+        type(bundle["model"]), "predict",
+        lambda self, inputs: np.full(len(inputs), ml_prediction),
+    )
+    monkeypatch.setattr(
+        benchmark_equation, "predict_ch4_g_kg_dmi",
+        lambda dmi, forage: dmi * 0 + 21.8,
+    )
+    app.button[0].click().run()
+    assert not app.exception
+    assert not app.error
+    metrics = {item.label: item for item in app.metric}
+    assert metrics["ML prediction"].value == f"{ml_prediction:.1f} g CH₄/kg DMI"
+    assert metrics["Empirical benchmark"].value == "21.8 g CH₄/kg DMI"
+    assert metrics["Empirical benchmark"].delta == expected_badge
+    assert metrics["Estimated total CH₄"].value == f"{ml_prediction * 20:.0f} g/day"
+    details = next(table.value for table in app.dataframe if "metric" in table.value)
+    difference = details.loc[details["metric"] == "Difference: ML - benchmark", "value"]
+    assert difference.iloc[0] == expected_detail
+
+
 @pytest.mark.parametrize("dmi,forage", [(3.0, 0), (35.0, 100)])
 def test_ui_boundary_inputs_do_not_crash(dmi, forage):
     app = launch()

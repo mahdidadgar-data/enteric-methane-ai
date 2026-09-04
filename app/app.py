@@ -446,6 +446,7 @@ with tab_predict:
         total_ch4_ml = pred_ml * dmi_kg
         total_ch4_benchmark = pred_benchmark * dmi_kg
         difference = pred_ml - pred_benchmark
+        benchmark_minus_ml = pred_benchmark - pred_ml
 
         st.header("2. Prediction results")
 
@@ -458,7 +459,7 @@ with tab_predict:
         metric_col2.metric(
             "Empirical benchmark",
             f"{pred_benchmark:.1f} g CH₄/kg DMI",
-            delta=f"{difference:+.1f} vs ML",
+            delta=f"{benchmark_minus_ml:+.1f} vs ML",
             delta_color="inverse",
         )
         metric_col3.metric(
