@@ -2,6 +2,10 @@
 
 > Scientific AI Assistant for Sustainable Ruminant Nutrition — Enteric Methane Prediction, Explainability & Evidence Retrieval
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://enteric-methane-ai.streamlit.app/)
+
+[Live Application](https://enteric-methane-ai.streamlit.app/) | [GitHub Profile](https://github.com/mahdidadgar-data)
+
 ## Project Overview
 
 `enteric-methane-ai` is an applied machine learning and scientific AI project focused on predicting enteric methane (CH4) emissions from ruminant diet composition and animal traits.
@@ -28,7 +32,7 @@ For that reason, this project focuses on three questions:
 
 ## Demo
 
-The Streamlit app allows the user to enter a diet and animal profile, generate a methane prediction, compare it with a benchmark equation, and inspect the most influential variables.
+The [live Streamlit app](https://enteric-methane-ai.streamlit.app/) allows the user to enter a diet and animal profile, generate a methane prediction, and compare it with a benchmark equation. Explainability tables and saved evidence briefs are displayed when their optional output files are available; those files are not yet included in the hosted demo.
 
 ![Diet and animal profile input form](images/app_input_form.png)
 
@@ -184,8 +188,10 @@ before the root training requirements. See the official
 [deployment instructions](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)
 and [dependency-file selection](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies).
 
-After publishing, verify that the prediction button works at the assigned
-public URL before adding a live-demo badge to this README.
+The current public demo is available at
+[enteric-methane-ai.streamlit.app](https://enteric-methane-ai.streamlit.app/).
+If redeploying to a different address, verify the prediction button and update
+the live-demo links at the top of this README.
 
 To run the deployment smoke tests in the inference environment:
 
