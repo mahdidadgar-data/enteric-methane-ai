@@ -1,0 +1,11 @@
+rank,scenario,baseline_mean_prediction,intervention_mean_prediction,estimated_delta_g_ch4_kg_dmi,reference_profiles,reference_kind,interpretation
+1,seaweed: category change; normalized dose 1,20.16669846,17.71028328,-2.456415176,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+2,3-NOP: category change; normalized dose 1,20.16669846,17.90523338,-2.261465073,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+3,lipid: category change; normalized dose 1,20.16669846,19.24410248,-0.9225959778,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+4,tannin: category change; normalized dose 1,20.16669846,19.25845528,-0.9082431793,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+5,nitrate: category change; normalized dose 1,20.16669846,19.25959587,-0.9071025848,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+6,other: category change; normalized dose 1,20.16669846,19.30666161,-0.86003685,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+7,NDF -50 g/kg DM,20.16669846,19.70089149,-0.4658069611,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+8,Dietary fat +10 g/kg DM,20.16669846,19.83096695,-0.3357315063,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+9,Forage -10 percentage points; concentrate +10,20.16669846,19.95778084,-0.2089176178,27,Synthetic demonstration grid; not real farm data,Lower model prediction
+10,Starch +50 g/kg DM,20.16669846,19.95846176,-0.2082366943,27,Synthetic demonstration grid; not real farm data,Lower model prediction

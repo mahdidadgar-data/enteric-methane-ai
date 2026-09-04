@@ -32,7 +32,18 @@ For that reason, this project focuses on three questions:
 
 ## Demo
 
-The [live Streamlit app](https://enteric-methane-ai.streamlit.app/) allows the user to enter a diet and animal profile, generate a methane prediction, and compare it with a benchmark equation. Explainability tables and saved evidence briefs are displayed when their optional output files are available; those files are not yet included in the hosted demo.
+The [live Streamlit app](https://enteric-methane-ai.streamlit.app/) allows the user to enter a diet and animal profile, generate a methane prediction, and compare it with a benchmark equation. Its Explainability tab includes saved feature importance and model-sensitivity scenarios. The Evidence briefs tab contains three source-linked literature snapshots.
+
+The hosted feature-importance method is **XGBoost normalized split gain, not SHAP**.
+The 10 sensitivity scenarios use **27 synthetic reference profiles**, not real
+farm observations or the original training data. These precomputed outputs do
+not change with the prediction form. The literature briefs cover 3-NOP,
+Asparagopsis and nitrate using six selected PubMed-indexed studies checked on
+4 September 2026; they are not live searches or a systematic review.
+
+See [output methods and limitations](outputs/explainability/README.md) and
+[literature provenance](outputs/rag/README.md). The saved model was not retrained
+and has not been validated here against the cited experiments.
 
 ![Diet and animal profile input form](images/app_input_form.png)
 
@@ -166,9 +177,17 @@ Use a separate environment for the full training workflow below. The saved
 model's version details and limitations are documented in
 [models/README.md](models/README.md).
 
-The optional feature-importance CSV, mitigation-sensitivity CSV, and saved
-PubMed evidence briefs are not currently included in the repository. Their
-sections show availability messages; the prediction form can run without them.
+The repository includes both explainability CSVs and three saved evidence
+briefs. To regenerate only the model-derived demo outputs without training data:
+
+```bash
+python src/build_demo_outputs.py
+```
+
+This preserves the saved model and does not regenerate or modify the literature
+briefs. The original `src/explain.py` workflow remains available for analysis
+with a cleaned dataset. Do not interpret the synthetic demonstration grid as
+that dataset or as scientific validation.
 
 ### Deploy the saved demo to Streamlit Community Cloud
 
@@ -197,7 +216,7 @@ To run the deployment smoke tests in the inference environment:
 
 ```bash
 python -m pip install pytest
-python -m pytest tests/test_streamlit_app.py -q
+python -m pytest tests -q
 ```
 
 The following steps describe the full data and training workflow.
@@ -305,7 +324,7 @@ Future improvements could include:
 - Expanding the RAG layer with more structured evidence grading
 - Adding a rumen microbiome module if a suitable public dataset is available
 - Adding a poultry nutrition track focused on feed efficiency or nitrogen excretion
-- Completing the hosted demo with reviewed explainability outputs and evidence briefs
+- Extending the saved literature snapshots with formal evidence appraisal
 
 ## Portfolio Relevance
 

@@ -21,7 +21,19 @@ data/processed/*
 !data/processed/.gitkeep
 
 models/*
-outputs/
+outputs/*
+!outputs/explainability/
+outputs/explainability/*
+!outputs/explainability/feature_importance.csv
+!outputs/explainability/mitigation_opportunities.csv
+!outputs/explainability/demo_metadata.json
+!outputs/explainability/README.md
+!outputs/rag/
+outputs/rag/*
+!outputs/rag/evidence_brief_3_nop.md
+!outputs/rag/evidence_brief_asparagopsis.md
+!outputs/rag/evidence_brief_nitrate.md
+!outputs/rag/README.md
 *.joblib
 *.pkl
 

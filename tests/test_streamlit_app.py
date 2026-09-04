@@ -43,7 +43,7 @@ def test_saved_model_schema(bundle):
     assert not {"ch4_g_kg_dmi", "ch4_g_day"}.intersection(bundle["feature_cols"])
 
 
-def test_startup_without_optional_outputs():
+def test_startup_with_saved_demo_outputs():
     app = launch()
     assert [tab.label for tab in app.tabs] == [
         "Prediction", "Explainability", "Evidence briefs", "About"
@@ -83,3 +83,39 @@ def test_inconsistent_additive_input_displays_warning():
     input_widget(app, "Additive dose (normalized units)").set_value(1.0).run()
     assert not app.exception
     assert any("inconsistent" in item.value for item in app.warning)
+
+
+def test_explainability_tables_are_populated_and_labelled():
+    app = launch()
+    tables = [table.value for table in app.dataframe]
+    assert any(len(frame) == 28 and "feature" in frame for frame in tables)
+    assert any(len(frame) == 10 and "scenario" in frame for frame in tables)
+    assert any("not SHAP" in caption.value for caption in app.caption)
+    assert any("27 synthetic profiles" in item.value for item in app.info)
+    assert not any("not found" in item.value.lower() for item in app.info)
+
+
+def test_all_three_evidence_briefs_render():
+    app = launch()
+    selector = next(item for item in app.selectbox if item.label == "Select saved evidence brief")
+    assert len(selector.options) == 3
+    files = sorted((ROOT / "outputs" / "rag").glob("evidence_brief_*.md"))
+    for path in files:
+        selector = next(item for item in app.selectbox if item.label == "Select saved evidence brief")
+        selector.set_value(path).run()
+        assert not app.exception
+        assert any(path.read_text(encoding="utf-8").strip() == text.value.strip() for text in app.markdown)
+
+
+def test_missing_optional_outputs_still_allow_prediction(monkeypatch):
+    original_exists = Path.exists
+    absent = {
+        ROOT / "outputs" / "explainability" / "feature_importance.csv",
+        ROOT / "outputs" / "explainability" / "mitigation_opportunities.csv",
+        ROOT / "outputs" / "rag",
+    }
+    monkeypatch.setattr(Path, "exists", lambda path: False if path in absent else original_exists(path))
+    app = launch()
+    app.button[0].click().run()
+    assert not app.exception
+    assert any(item.label == "ML prediction" for item in app.metric)

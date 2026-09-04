@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "model_sha256": "c3b3080de60f0f0e587385c2d275936ae604c143280ec53ebe5787ed4956e355",
+  "xgboost_version": "3.3.0",
+  "feature_importance_method": "Normalized average split gain; not SHAP or causal effect",
+  "sensitivity_reference": "Synthetic demonstration grid, not training rows or observed farms",
+  "reference_profiles": 27,
+  "base_profile": {
+    "dmi_kg": 20.0,
+    "cp_g_kg": 160.0,
+    "ndf_g_kg": 400.0,
+    "adf_g_kg": 220.0,
+    "ee_g_kg": 35.0,
+    "starch_g_kg": 220.0,
+    "forage_pct": 55.0,
+    "body_weight_kg": 575.0,
+    "milk_yield_kg": 28.0,
+    "lactating": 1,
+    "breed": "Holstein",
+    "additive_type": "none",
+    "additive_dose": 0.0
+  },
+  "grid": {
+    "dmi_kg": [
+      16.0,
+      20.0,
+      24.0
+    ],
+    "forage_pct": [
+      40.0,
+      55.0,
+      70.0
+    ],
+    "milk_yield_kg": [
+      20.0,
+      28.0,
+      36.0
+    ]
+  },
+  "delta_definition": "scenario mean minus baseline mean, g CH4/kg DMI",
+  "rank_definition": "Sort order of model deltas; not an efficacy ranking",
+  "limitations": [
+    "Reference profiles and input probes are illustrative, not fully balanced rations.",
+    "Concentrate and milk-per-DMI features are recomputed with the same encoder as the app.",
+    "Normalized additive dose 1 has no common physical dose across additives.",
+    "No outcome labels or scientific performance metrics are generated.",
+    "Training-data provenance is not embedded in the saved model.",
+    "Outputs are precomputed and do not change with the prediction form."
+  ]
+}

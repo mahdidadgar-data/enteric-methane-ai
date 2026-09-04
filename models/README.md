@@ -24,9 +24,10 @@ model must not be interpreted as evidence of validation on real experiments.
 Runtime tests establish that the app can load the model and make predictions,
 not that those predictions are scientifically accurate.
 
-The optional explainability CSVs and saved evidence briefs are not embedded
-in this file. Until those outputs are supplied, their app sections display
-availability messages.
+The explainability CSVs and saved evidence briefs are stored separately under
+`outputs/`. Feature importance is derived from this model; sensitivity uses
+new synthetic reference profiles. These are not recovered training records.
+The briefs provide literature context, not validation of this artifact.
 
 Only load Joblib/pickle artifacts from a trusted source. Do not add an
 unrestricted model-upload feature to the public app. If upgrading XGBoost,
